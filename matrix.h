@@ -14,6 +14,35 @@ class Matrix {
 
 public:
 
+
+    class Item {
+
+    public:
+        PointerType data() {
+            return _data;
+        }
+        int line() {
+            return _line;
+        }
+        int column() {
+            return _column;
+        }
+
+        int getIndex() {
+            return _index;
+        }
+
+        Item( int line, int column, int index, PointerType data ) : _line(line), _column(column), _data(data), _index(index) {
+        }
+
+    private:
+        int _line;
+        int _column;
+        int _index;
+        PointerType _data;
+
+    };
+
     Matrix() = delete;
 
     Matrix( int line, int column ) :
@@ -47,9 +76,16 @@ public:
         return _matrix[ line * _column + column ];
     }
 
-    std::vector<PointerType> getBoundariesOf(int line, int column) {
+    std::vector<Item> getBoundariesOf(int index) {
+        int linha = index / _column;
+        int coluna = index % _column;
 
-        std::vector<PointerType> result;
+        return getBoundariesOf(linha, coluna);
+    }
+
+    std::vector<Item> getBoundariesOf(int line, int column) {
+
+        std::vector<Item> result;
 
         int minLine = std::max(0, line - 1);
         int maxLine = std::min(_line - 1, line + 1);
@@ -60,7 +96,7 @@ public:
         for (int i = minLine; i <= maxLine; i++) {
             for (int j = minColumn; j <= maxColumn; j++) {
                 if (i != line || j != column) { // Evita verificar a célula alvo
-                    result.push_back( &_matrix[ i * _column + j ] );
+                    result.emplace_back( i, j, calculateIndex(i, j),  &_matrix[ i * _column + j ] );
                 }
             }
         }
@@ -106,6 +142,10 @@ public:
 
     auto cend() const {
         return _matrix.cend();
+    }
+
+    int calculateIndex(int line, int column) {
+        return line * _column + column;
     }
 
 private:

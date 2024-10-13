@@ -25,6 +25,8 @@ public slots:
     void openSpace(int index);
 
 private:
+    void expand(int index);
+
     Matrix<Space*> _data;
 
     // QAbstractItemModel interface

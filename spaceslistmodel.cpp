@@ -34,8 +34,21 @@ void SpacesListModel::openSpace(int index_)
 {
     bool wasChanged = _data[index_]->open();
     if(wasChanged) {
+
+        if(_data[index_]->getValue() == 0) {
+
+            auto bs = _data.getBoundariesOf(index_);
+            for(auto x : bs) {
+                openSpace(x.getIndex());
+            }
+        }
         emit dataChanged(index(index_), index(index_));
     }
+}
+
+void SpacesListModel::expand(int index)
+{
+
 }
 
 int SpacesListModel::rowCount(const QModelIndex &parent) const

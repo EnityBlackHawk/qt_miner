@@ -24,14 +24,14 @@ Matrix<std::unique_ptr<Space>> MinerGen::generate() {
 
     for ( int i = 0; i < _w; i++ ) {
         for ( int j = 0; j < _h; j++ ) {
-            std::vector<std::unique_ptr<Space>*> val = matrix.getBoundariesOf(i, j);
+            std::vector<Matrix<std::unique_ptr<Space>>::Item> val = matrix.getBoundariesOf(i, j);
 
             if(matrix(i, j)->getValue() == BOMBED) {
                 continue;
             }
 
             int count = std::count_if(val.begin(), val.end(), [](auto v) -> bool {
-                return ((*v)->getValue() == -1);
+                return ((*v.data())->getValue() == -1);
             });
 
             matrix(i, j)->setValue(count);
