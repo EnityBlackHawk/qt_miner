@@ -23,9 +23,12 @@ public:
 
 public slots:
     void openSpace(int index);
+    void onExploded();
+
+signals:
+    void explode();
 
 private:
-    void expand(int index);
 
     Matrix<Space*> _data;
 

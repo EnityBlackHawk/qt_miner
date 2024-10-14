@@ -5,6 +5,7 @@ import SpacesListModel 1.0
 
 
 Window {
+    id: root
     height: 480
     title: qsTr("Miner")
     visible: true
@@ -16,6 +17,23 @@ Window {
         Component.onCompleted: {
             listModel.init()
         }
+
+        onExplode: {
+            root.color = "red"
+            timer.running = true
+        }
+    }
+
+    Timer {
+        id: timer
+        interval: 100
+        repeat: true
+
+        onTriggered: {
+            root.x =  root.x + Math.random()
+            root.y = root.y + Math.random()
+        }
+
     }
 
     GridLayout {

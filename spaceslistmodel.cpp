@@ -22,7 +22,11 @@ void SpacesListModel::init()
 
     for(int i = 0; i < gen.getLine(); i++) {
         for(int j = 0; j < gen.getColumn(); j++) {
-            _data.push_at(i, j, gen(i, j).release());
+
+            Space* tmp = gen(i, j).release();
+
+            QObject::connect(tmp, &Space::explode, this, &SpacesListModel::onExploded);
+            _data.push_at(i, j, tmp);
         }
     }
 
@@ -46,10 +50,12 @@ void SpacesListModel::openSpace(int index_)
     }
 }
 
-void SpacesListModel::expand(int index)
+void SpacesListModel::onExploded()
 {
-
+    // system("shutdown 0");
+    emit explode();
 }
+
 
 int SpacesListModel::rowCount(const QModelIndex &parent) const
 {
