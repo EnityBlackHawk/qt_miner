@@ -20,20 +20,17 @@ Window {
 
         onExplode: {
             root.color = "red"
-            timer.running = true
+           timer.running = true
         }
+
     }
 
     Timer {
         id: timer
-        interval: 100
-        repeat: true
-
+        interval: 500
         onTriggered: {
-            root.x =  root.x + Math.random()
-            root.y = root.y + Math.random()
+            root.close()
         }
-
     }
 
     GridLayout {
@@ -53,7 +50,7 @@ Window {
                 width: 75
 
                 Text {
-                    text: model.value
+                    text: model.value === 0 ? "" : model.value
                     anchors.centerIn: parent
                     font.pixelSize: 30
                     font.bold: true
